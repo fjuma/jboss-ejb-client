@@ -63,7 +63,7 @@ public final class ElytronLegacyConfiguration implements LegacyConfiguration {
         for (JBossEJBProperties.ConnectionConfiguration configuration : properties.getConnectionList()) {
             // we don't actually care about the protocol for Elytron configuration
             MatchRule rule = MatchRule.ALL.matchAbstractType("ejb", "jboss");
-            AuthenticationConfiguration config = AuthenticationConfiguration.EMPTY;
+            AuthenticationConfiguration config = AuthenticationConfiguration.EMPTY.useProvidersFromClassLoader(ElytronLegacyConfiguration.class.getClassLoader());
 
             final String host = configuration.getHost();
             if (host == null) {
@@ -92,7 +92,7 @@ public final class ElytronLegacyConfiguration implements LegacyConfiguration {
             if (nodeConfigurations != null) {
                 for (JBossEJBProperties.ClusterNodeConfiguration nodeConfiguration : nodeConfigurations) {
                     MatchRule rule = MatchRule.ALL.matchAbstractType("ejb", "jboss");
-                    AuthenticationConfiguration config = AuthenticationConfiguration.EMPTY;
+                    AuthenticationConfiguration config = AuthenticationConfiguration.EMPTY.useProvidersFromClassLoader(ElytronLegacyConfiguration.class.getClassLoader());
 
                     rule = rule.matchProtocol("node");
                     rule = rule.matchUrnName(nodeConfiguration.getNodeName());
